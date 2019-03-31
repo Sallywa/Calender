@@ -9,7 +9,7 @@
   		</div>
   	</div>
   	<div v-for='(items, index) in months' v-if="index == monthIndex">
-  		<month :monthName='items' :year='year' :monthIndex='index' :key='index'></month>
+  		<month :monthName='items' :year='year' :monthIndex='index' :key='index' :day='day'></month>
   	</div>
   </div>
 </template>
@@ -22,14 +22,17 @@
 	  	Month,
 	  },
 	  mounted () {
-	  	this.monthIndex = new Date().getMonth() + 1;
-	  	this.year = new Date().getFullYear(); 
+	  	let myDate = new Date();
+	  	this.monthIndex = myDate.getMonth();
+	  	this.year = myDate.getFullYear(); 
+	  	this.day = myDate.getDate() - 1;
 	  },
 	  data () {
 	    return {
 	    	monthIndex: 0,
 	    	months:['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
 	    	year:-1,
+	    	day:-1,
 	    }
 	  },
 	  methods:{

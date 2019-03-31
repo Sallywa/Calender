@@ -45,17 +45,22 @@
 	    		},
 				chooseIndex: -1,
 				leapyear: false,
+				firstDayIndex: 0,
 			}
 		},
+		// computed () {
+		// 	chosen:{
+		// 		return new Date().getMonth() == this.monthIndex
+		// 	}
+		// },
 		methods:{
 			choose(index) {
 				this.chooseIndex = index;
 			},
 			judgeDays(){
-				let firstDayIndex = new Date(this.year + '/' + (this.monthIndex + 1) + '/' + '01').getDay();
 				let lastMonthIndex = (this.monthIndex - 1) <= 0 ? 11 : this.monthIndex - 1;
 				let lastDay = this.getMonthLastDay(this.year, lastMonthIndex);
-				this.generateDays(lastDay, firstDayIndex);
+				this.generateDays(lastDay, this.firstDayIndex);
 			},
 			getMonthLastDay (year, month){
 				if (month != 1) {
@@ -101,11 +106,15 @@
 		},
 		
 		mounted () {
+			this.firstDayIndex = new Date(this.year + '/' + (this.monthIndex + 1) + '/' + '01').getDay();
 			this.judgeDays();
-			// console.log(this.year)
 			this.leapyear = this.isLeapYear();
+			if (new Date().getMonth() == this.monthIndex) {
+				this.chooseIndex = this.day + this.firstDayIndex;
+			}
+			
 		},
-		props:['monthName', 'monthIndex','year']
+		props:['monthName', 'monthIndex','year','day']
 	}
 </script>
 
